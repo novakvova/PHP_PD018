@@ -26,6 +26,7 @@
             <th scope="col">Фото</th>
             <th scope="col">Назва</th>
             <th scope="col">Опис</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -35,6 +36,7 @@
         $command = $dbh->query($sql);
         foreach ($command as $row) {
             $image = $row["image"];
+            $id = $row["id"];
             $name = $row["name"];
             $description = $row["description"];
             echo "
@@ -42,6 +44,7 @@
                 <th><img src='$image' alt='' width='50'></th>
                 <td>$name</td>
                 <td>$description</td>
+                <td><a href='/categories/edit.php?id=$id' class='btn btn-danger'>Змінити</a></td>
             </tr>
             ";
         }

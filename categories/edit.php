@@ -5,19 +5,30 @@ $description="";
 if($_SERVER["REQUEST_METHOD"]=="POST")
 {
     include_once($_SERVER["DOCUMENT_ROOT"] . "/connection.php");
-    //echo"<br/>";
-    //echo"<br/>";
-    //print_r($_POST);
+    $id=$_GET["id"];
     $name=$_POST["name"];
     $image=$_POST["image"];
     $description=$_POST["description"];
 
-    $sql = "INSERT INTO tbl_categories (name, image, description) VALUES (?,?,?)";
+    $sql = "UPDATE `tbl_categories` SET `name` = ?, `image` = ?, `description` = ? WHERE `tbl_categories`.`id` = ?;";
     $stmt= $dbh->prepare($sql);
-    $stmt->execute([$name, $image, $description]);
+    $stmt->execute([$name, $image, $description, $id]);
 
     header("location: /");
     exit();
+}
+else {
+    include_once($_SERVER["DOCUMENT_ROOT"] . "/connection.php");
+    $id=$_GET["id"];
+    $sql = "SELECT * FROM tbl_categories where id=".$id;
+    $command = $dbh->query($sql);
+    foreach($command as $row) {
+        $image = $row["image"];
+        $name = $row["name"];
+        $description = $row["description"];
+        break;
+    }
+
 }
 
 ?>
@@ -38,7 +49,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
 <?php include_once($_SERVER["DOCUMENT_ROOT"] . "/_header.php"); ?>
 
 
-<h1 class="text-center">Додати категорій</h1>
+<h1 class="text-center">Зміна категорій</h1>
 <div class="container">
     <div class="row">
         <form method="post" class="offset-md-3 col-md-6">
@@ -59,7 +70,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
                           id="description"><?php echo $description; ?></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary">Додати</button>
+            <button type="submit" class="btn btn-primary">Зберегти</button>
         </form>
     </div>
 
