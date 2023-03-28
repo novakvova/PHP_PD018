@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Головна сторінка</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -41,10 +42,19 @@
             $description = $row["description"];
             echo "
             <tr>
-                <th><img src='$image' alt='' width='50'></th>
+                <th><img src='/uploads/$image' alt='' width='50'></th>
                 <td>$name</td>
                 <td>$description</td>
-                <td><a href='/categories/edit.php?id=$id' class='btn btn-danger'>Змінити</a></td>
+                <td>
+                <a href='/categories/edit.php?id=$id' class='btn btn-primary'>
+                    <i class='fa fa-pencil fs-4'></i>
+                </a>
+                
+                <a href='/categories/delete.php?id=$id' class='btn btn-danger' data-delete>
+                     <i class='fa fa-times fs-4'></i>
+                </a>
+                </td>
+                
             </tr>
             ";
         }
@@ -53,7 +63,10 @@
     </table>
 </div>
 
-
 <script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/axios.min.js"></script>
+
+<?php include_once($_SERVER["DOCUMENT_ROOT"] . "/modal/deleteModal.php"); ?>
+<script src="/js/delete.js"></script>
 </body>
 </html>
